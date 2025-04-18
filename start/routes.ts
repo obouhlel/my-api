@@ -14,3 +14,6 @@ router.get('/', async () => {
     hello: 'world',
   }
 })
+
+const MessagesController = () => import('#controllers/messages_controller')
+router.post('/contact-me', [MessagesController, 'send'])
