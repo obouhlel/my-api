@@ -1,17 +1,28 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import { messageValid } from '#validators/message'
 import axios from 'axios'
+import env from '#start/env'
 
 export default class MessagesController {
   async send({ request, response }: HttpContext) {
     const { name, email, object, message } = await request.validateUsing(messageValid)
 
-    const webhooksURL =
-      'https://discord.com/api/webhooks/1362825040965537972/Y2LolN7MhKLjGPpMWarr9wF7K85WzjxjUFSgNbAwHPWPRQRQBTzRHv6GwZpbeN_ujBLI'
-
     try {
+      const webhooksURL = env.get('DISCORD_WEBHOOK_URL')
       const payload = {
-        content: `**New Message Received**\n**Name:** ${name}\n**Email:** ${email}\n**Object:** ${object}\n**Message:** ${message}`,
+        embeds: [
+          {
+            title: `New Message: ${object}`,
+            color: 0x5865f2,
+            fields: [
+              { name: 'Name', value: name, inline: true },
+              { name: 'Email', value: email, inline: true },
+              { name: '📝 Message', value: message || 'No message content' },
+            ],
+            timestamp: new Date().toISOString(),
+            footer: { text: 'My API - Contact Form' },
+          },
+        ],
       }
 
       await axios.post(webhooksURL, payload)

@@ -28,4 +28,10 @@ export default await Env.create(new URL('../', import.meta.url), {
   DB_USER: Env.schema.string(),
   DB_PASSWORD: Env.schema.string.optional(),
   DB_DATABASE: Env.schema.string(),
+  /*
+  |----------------------------------------------------------
+  | Variables for discord webhooks
+  |----------------------------------------------------------
+  */
+  DISCORD_WEBHOOK_URL: Env.schema.string({ format: 'url' }),
 })
