@@ -7,14 +7,9 @@ import { defineConfig } from '@adonisjs/cors'
  * https://docs.adonisjs.com/guides/security/cors
  */
 
-const allowedOrigin = ['http://127.0.0.1', 'http://localhost']
-
 const corsConfig = defineConfig({
   enabled: true,
-  origin: (origin) => {
-    if (!origin) return false
-    return allowedOrigin.includes(origin)
-  },
+  origin: true,
   methods: ['GET', 'HEAD', 'POST', 'PUT', 'DELETE'],
   headers: true,
   exposeHeaders: [],
